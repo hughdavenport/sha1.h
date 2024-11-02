@@ -12,6 +12,7 @@ int main() {
         for (int idx = 0; idx < SHA1_DIGEST_BYTE_LENGTH; idx ++) {
             printf("%02x", result[idx]);
         }
+        printf("\n");
         return 0;
     }
     fprintf(stderr, "Unexpected error\n");
