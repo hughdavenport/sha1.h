@@ -5,7 +5,7 @@
 
 This repo contains a [stb-style](https://github.com/nothings/stb/blob/master/docs/stb_howto.txt) header only library. You only need the [sha1.h](https://github.com/hughdavenport/sha1.h/raw/refs/heads/main/sha1.h) file.
 
-This was developed during a [YouTube series](https://www.youtube.com/watch?v=dqw7B6eR9P8&list=PL5r5Q39GjMDfetFdGmnhjw1svsALW1HIY) where I implement bittorrent from scratch, where [SHA-1](https://www.rfc-editor.org/rfc/rfc3174) is a necessary component.
+This was developed during a [YouTube series](https://www.youtube.com/watch?v=dqw7B6eR9P8&list=PL5r5Q39GjMDfetFdGmnhjw1svsALW1HIY) where I implement [bittorrent from scratch](https://github.com/hughdavenport/codecrafters-bittorrent-c), where [SHA-1](https://www.rfc-editor.org/rfc/rfc3174) is a necessary component.
 
 To use the library, `#define SHA1_IMPLEMENTATION` exactly once (in your main.c may be a good place). You can `#include` the file as many times as you like.
 
