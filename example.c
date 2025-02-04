@@ -5,10 +5,10 @@
 #include <string.h>
 
 int main() {
-    const char *test = "Hello, SHA1\n";
+    const char test[] = "blob 47\00apple blueberry pineapple pear strawberry grape";
     uint8_t result[SHA1_DIGEST_BYTE_LENGTH];
 
-    if (sha1_digest(test, strlen(test), result)) {
+    if (sha1_digest(test, sizeof(test) - 1, result)) {
         for (int idx = 0; idx < SHA1_DIGEST_BYTE_LENGTH; idx ++) {
             printf("%02x", result[idx]);
         }
