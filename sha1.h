@@ -26,7 +26,7 @@ SOFTWARE.
 #define SHA1_H
 
 #define SHA1_H_VERSION_MAJOR 2
-#define SHA1_H_VERSION_MINOR 1
+#define SHA1_H_VERSION_MINOR 2
 #define SHA1_H_VERSION_PATCH 0
 
 #include <stdint.h>
