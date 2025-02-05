@@ -26,7 +26,7 @@ SOFTWARE.
 #define SHA1_H
 
 #define SHA1_H_VERSION_MAJOR 2
-#define SHA1_H_VERSION_MINOR 0
+#define SHA1_H_VERSION_MINOR 1
 #define SHA1_H_VERSION_PATCH 0
 
 #include <stdint.h>
@@ -34,6 +34,12 @@ SOFTWARE.
 #include <stddef.h>
 
 #define SHA1_DIGEST_BYTE_LENGTH (160 / 8)
+
+#define SHA1_PRINTF_HEX(hash) do { \
+    for (size_t i = 0; i < SHA1_DIGEST_BYTE_LENGTH; i ++) { \
+        printf("%02x", (hash)[i]); \
+    } \
+} while (0)
 
 bool sha1_digest(const uint8_t *data,
                 size_t length,
