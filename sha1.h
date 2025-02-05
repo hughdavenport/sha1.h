@@ -33,13 +33,23 @@ SOFTWARE.
 #include <stdbool.h>
 #include <stddef.h>
 
+#include <stdio.h>
+#include <unistd.h>
+
 #define SHA1_DIGEST_BYTE_LENGTH (160 / 8)
 
-#define SHA1_PRINTF_HEX(hash) do { \
-    for (size_t i = 0; i < SHA1_DIGEST_BYTE_LENGTH; i ++) { \
-        printf("%02x", (hash)[i]); \
+#define SHA1_SNPRINTF_HEX(str, n, hash) do { \
+    for (size_t i = 0; i < ((n) / 2 < SHA1_DIGEST_BYTE_LENGTH ? (n) / 2 : SHA1_DIGEST_BYTE_LENGTH); i ++) { \
+        snprintf((str) + i * 2, (n) - i * 2, "%02x", (hash)[i]); \
     } \
 } while (0)
+#define SHA1_DPRINTF_HEX(fd, hash) do { \
+    for (size_t i = 0; i < SHA1_DIGEST_BYTE_LENGTH; i ++) { \
+        dprintf((fd), "%02x", (hash)[i]); \
+    } \
+} while (0)
+#define SHA1_FPRINTF_HEX(file, hash) SHA1_DPRINTF_HEX(fileno((file)), (hash))
+#define SHA1_PRINTF_HEX(hash) SHA1_DPRINTF_HEX(STDOUT_FILENO, (hash))
 
 bool sha1_digest(const uint8_t *data,
                 size_t length,

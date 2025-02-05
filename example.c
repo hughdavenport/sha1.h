@@ -9,9 +9,7 @@ int main() {
     uint8_t result[SHA1_DIGEST_BYTE_LENGTH];
 
     if (sha1_digest(test, sizeof(test) - 1, result)) {
-        for (int idx = 0; idx < SHA1_DIGEST_BYTE_LENGTH; idx ++) {
-            printf("%02x", result[idx]);
-        }
+        SHA1_PRINTF_HEX(result);
         printf("\n");
         return 0;
     }
