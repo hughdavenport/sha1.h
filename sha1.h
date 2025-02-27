@@ -27,7 +27,7 @@ SOFTWARE.
 
 #define SHA1_H_VERSION_MAJOR 2
 #define SHA1_H_VERSION_MINOR 3
-#define SHA1_H_VERSION_PATCH 0
+#define SHA1_H_VERSION_PATCH 1
 
 #include <stdint.h>
 #include <stdbool.h>
@@ -174,7 +174,7 @@ bool sha1_digest(const uint8_t *data,
                 uint64_t length,
                 uint8_t result[SHA1_DIGEST_BYTE_LENGTH]) {
 
-    if (length > _SHA1_MAX_LENGTH) return false;
+    if (length >= _SHA1_MAX_LENGTH) return false;
 
     // Name and initialisation values from RFC 3174
     uint32_t H[5] = {
