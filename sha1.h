@@ -26,8 +26,8 @@ SOFTWARE.
 #define SHA1_H
 
 #define SHA1_H_VERSION_MAJOR 2
-#define SHA1_H_VERSION_MINOR 3
-#define SHA1_H_VERSION_PATCH 1
+#define SHA1_H_VERSION_MINOR 4
+#define SHA1_H_VERSION_PATCH 0
 
 #include <stdint.h>
 #include <stdbool.h>
@@ -36,22 +36,24 @@ SOFTWARE.
 #include <stdio.h>
 #include <unistd.h>
 
+#include <assert.h>
+
 #define SHA1_DIGEST_BIT_LENGTH 160
 #define SHA1_DIGEST_BYTE_LENGTH (SHA1_DIGEST_BIT_LENGTH / 8)
 #define SHA1_DIGEST_HEX_LENGTH 2 * SHA1_DIGEST_BYTE_LENGTH
 
 #define SHA1_SNPRINTF_HEX(str, n, hash) do { \
-    for (size_t i = 0; i < ((n) / 2 < SHA1_DIGEST_BYTE_LENGTH ? (n) / 2 : SHA1_DIGEST_BYTE_LENGTH); i ++) { \
-        snprintf((str) + i * 2, (n) - i * 2, "%02x", (hash)[i]); \
+    for (size_t sha1_snprintf_i = 0; sha1_snprintf_i < ((n) / 2 < SHA1_DIGEST_BYTE_LENGTH ? (n) / 2 : SHA1_DIGEST_BYTE_LENGTH); sha1_snprintf_i ++) { \
+        snprintf((str) + sha1_snprintf_i * 2, (n) - sha1_snprintf_i * 2, "%02x", (hash)[sha1_snprintf_i]); \
     } \
 } while (0)
 #define SHA1_DPRINTF_HEX(fd, hash) do { \
-    for (size_t i = 0; i < SHA1_DIGEST_BYTE_LENGTH; i ++) { \
-        dprintf((fd), "%02x", (hash)[i]); \
+    for (size_t sha1_dprintf_i = 0; sha1_dprintf_i < SHA1_DIGEST_BYTE_LENGTH; sha1_dprintf_i ++) { \
+        dprintf((fd), "%02x", (hash)[sha1_dprintf_i]); \
     } \
 } while (0)
-#define SHA1_FPRINTF_HEX(file, hash) SHA1_DPRINTF_HEX(fileno((file)), (hash))
-#define SHA1_PRINTF_HEX(hash) SHA1_DPRINTF_HEX(STDOUT_FILENO, (hash))
+#define SHA1_FPRINTF_HEX(file, hash) do { fflush((file)); SHA1_DPRINTF_HEX(fileno((file)), (hash)); } while (false)
+#define SHA1_PRINTF_HEX(hash) do { fflush(stdout); SHA1_DPRINTF_HEX(STDOUT_FILENO, (hash)); } while (false)
 
 bool sha1_digest(const uint8_t *data,
                 size_t length,
@@ -147,6 +149,7 @@ void _sha1_process_block(uint8_t M[_SHA1_BLOCK_SIZE], uint32_t H[5]) {
 }
 
 void _sha1_pad_block(uint8_t M[_SHA1_BLOCK_SIZE], uint32_t H[5], uint64_t length) {
+    assert(length < _SHA1_MAX_LENGTH);
     int idx = length % _SHA1_BLOCK_SIZE;
     length *= 8;
     M[idx++] = 0x80;
