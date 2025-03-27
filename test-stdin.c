@@ -33,7 +33,7 @@
     (arr).data[(arr).size++] = (b); \
 } while (false)
 
-int main() {
+int main(void) {
     array_t(uint8_t) input = {0};
     uint8_t buf[4096];
     uint8_t hash[SHA1_DIGEST_BYTE_LENGTH];
